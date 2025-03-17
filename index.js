@@ -1,15 +1,13 @@
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
 const route = require("./routes/client/index.route");
-const database = require("./config/database");
+const database = require("./config/connectDB"); //test connect database
 
 const app = express();
 const port = process.env.PORT || 3000; // Thêm giá trị mặc định nếu PORT không được định nghĩa
 
-database.connect();
-mongoose.connect(process.env.MONGO_URL);
-
+database.connect(); //test connect database
+ 
 app.set("view engine", "pug");
 app.set("views", "./views"); // Đảm bảo thư mục 'views' tồn tại
 
