@@ -1,0 +1,68 @@
+/* Start Header */
+.header{
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.header .inner-logo{
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+}
+ 
+/* End Header */
+
+/* 
+include ../pages/partials/header.pug
+        .body
+            include ../pages/partials/sider.pug
+            .main
+            block content
+        include ../pages/partials/footer.pug */
+/* Body */
+.body .sider{
+    width: 150px;
+    background: #333212;
+    color: #fff;
+    position: fixed;
+    height: calc(100vh - 100px);
+    top: 56px;
+    left: 0;
+}
+
+.body .main{
+    margin: 15px;
+    position: relative; 
+    left: 150px;
+    width: calc(100% - 180px);
+}
+
+/* End body */
+
+/* Start Footer */
+.footer{
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+/* End Footer */
+
+.sider .inner-menu ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.sider .inner-menu ul li a{
+    display: block;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 1px solid #fff;
+}
