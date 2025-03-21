@@ -8,11 +8,11 @@ block content
             h3.card-title Filter
         .card-body
             // 3 button filter All, Active, Inactive have class isActive?
-            .btn-group
-                a.btn.btn-primary.isActive(href=`${prefixAdmin}/products`) All
-                a.btn.btn-primary(href=`${prefixAdmin}/products?status=active`) Active
-                a.btn.btn-primary(href=`${prefixAdmin}/products?status=inactive`) Inactive
-            // form filter
+            .btn-group#filter-status
+                button.btn.btn-primary(type='button', value='') All
+                button.btn.btn-primary(type='button', value='active') Active
+                button.btn.btn-primary(type='button', value='inactive') Inactive
+                    // form filter
             form#form-filter
                 .form-group
                     label(for='status') Status

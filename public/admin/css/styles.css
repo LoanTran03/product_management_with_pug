@@ -66,3 +66,8 @@ include ../pages/partials/header.pug
     text-decoration: none;
     border-bottom: 1px solid #fff;
 }
+
+button .active{
+    background: #333;
+    color: white;
+}
