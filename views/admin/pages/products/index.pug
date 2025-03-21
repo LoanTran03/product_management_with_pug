@@ -2,26 +2,57 @@ extends ../../layouts/default.pug
 
 block content 
     h1 Products
-    table.table.table-hover.table-sm
-        thead
-            tr
-                th STT
-                th Name
-                th Thumbnail
-                th Price
-                th Discount
-                th Actions
-        tbody
-            each product,index in products
-                tr
-                    // STT
-                    td= index + 1
-                    td= product.title
-                    // Thumbnail
-                    td
-                        img(src=`${product.thumbnail}`, alt=`${product.title}`, width='100')
-                    td= product.price
-                    td= product.discount
-                    td
-                        a.btn.btn-primary(href=`${prefixAdmin}/products/${product.id}/edit`) Edit
-                        a.btn.btn-danger(href=`${prefixAdmin}/products/${product.id}/delete`) Delete
+    // card filter status
+    .card
+        .card-header
+            h3.card-title Filter
+        .card-body
+            // 3 button filter All, Active, Inactive have class isActive?
+            .btn-group
+                a.btn.btn-primary.isActive(href=`${prefixAdmin}/products`) All
+                a.btn.btn-primary(href=`${prefixAdmin}/products?status=active`) Active
+                a.btn.btn-primary(href=`${prefixAdmin}/products?status=inactive`) Inactive
+            // form filter
+            form#form-filter
+                .form-group
+                    label(for='status') Status
+                    select.form-control(name='status')
+                        option(value='') All
+                        option(value='active') Active
+                        option(value='inactive') Inactive
+                button.btn.btn-primary(type='submit') Filter        
+    // card list products
+    .card
+        .card-header
+            h3.card-title List Products
+        .card-body
+
+            table.table.table-hover.table-sm
+                thead
+                    tr
+                        th STT
+                        th Name
+                        th Thumbnail
+                        th Price
+                        th Discount
+                        th Status
+                        th Actions
+                tbody
+                    each product,index in products
+                        tr
+                            // STT
+                            td= index + 1
+                            td= product.title
+                            // Thumbnail
+                            td
+                                img(src=`${product.thumbnail}`, alt=`${product.title}`, width='100')
+                            td= product.price
+                            td= product.discount
+                            td 
+                                if(product.status)
+                                    .badge.badge-success Active
+                                else
+                                    .badge.badge-danger Inactive
+                            td
+                                a.btn.btn-primary(href=`${prefixAdmin}/products/${product.id}/edit`) Edit
+                                a.btn.btn-danger(href=`${prefixAdmin}/products/${product.id}/delete`) Delete
