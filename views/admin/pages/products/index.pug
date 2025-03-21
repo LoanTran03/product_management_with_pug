@@ -20,7 +20,13 @@ block content
                         option(value='') All
                         option(value='active') Active
                         option(value='inactive') Inactive
-                button.btn.btn-primary(type='submit') Filter        
+                button.btn.btn-primary(type='submit') Filter    
+            // search
+            form#form-search
+                .form-group
+                    label(for='search') Search
+                    input.form-control(name='search', type='text')
+                button.btn.btn-primary(type='submit') Search
     // card list products
     .card
         .card-header
