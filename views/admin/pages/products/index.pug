@@ -9,10 +9,8 @@ block content
         .card-body
             // 3 button filter All, Active, Inactive have class isActive?
             .btn-group#filter-status
-                button.btn.btn-primary(class=(filterStatus === 'all' ? 'isActive' : ''), type='button', value='all') All
-                button.btn.btn-primary(class=(filterStatus === 'active' ? 'isActive' : ''), type='button', value='active') Active
-                button.btn.btn-primary(class=(filterStatus === 'inactive' ? 'isActive' : ''), type='button', value='inactive') Inactive
-
+                each item in filterStatus 
+                    button.btn.btn-primary(class=item.class, type='button', value=item.status) #{item.name}
             // form filter
             form#form-filter
                 .form-group

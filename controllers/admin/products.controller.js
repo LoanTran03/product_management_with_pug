@@ -1,7 +1,10 @@
 const Product = require("../../models/products.model");
-
+const filterStatusHelper = require("../../helpers/filterStatus.js");
 module.exports.index = async (req, res) => {
     try {
+        const filterStatus = filterStatusHelper(req.query);
+        // console.log('filterStatus', filterStatus);
+        
         const { status, search } = req.query;
         const filter = {};
 
@@ -27,7 +30,7 @@ module.exports.index = async (req, res) => {
             title: "Products",
             products: products,
             // query: req.query  // 👈 Thêm dòng này để truyền query vào Pug
-            filterStatus: status,
+            filterStatus: filterStatus,
             searchInput: search
         });
 

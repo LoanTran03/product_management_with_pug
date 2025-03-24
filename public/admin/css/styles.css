@@ -74,12 +74,12 @@ include ../pages/partials/header.pug
                 button.btn.btn-primary(type='button', value='active') Active
                 button.btn.btn-primary(type='button', value='inactive') Inactive */
 
-.btn-group .btn.isActive {
+.btn-group .btn.isActived {
     background-color: #007bff; /* Màu xanh dương */
     color: white;
     border-color: black;
 }
 
-.btn-group .btn.isActive:hover {
+.btn-group .btn.isActived:hover {
     background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
 }
