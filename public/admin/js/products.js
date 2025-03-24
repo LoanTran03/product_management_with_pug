@@ -10,8 +10,6 @@ if (filterStatus) {
 
     const url = new URL(window.location.href);
     url.searchParams.set("status", status);
-
-
     window.location.href = url;
   });
 }
@@ -26,6 +24,21 @@ if (formSearch) {
     const url = new URL(window.location.href);
     url.searchParams.set("search", search);
 
-    window.location.href = url.toString();
+    window.location.href = url;
   });
+}
+
+// Pagination 
+const buttonPagination = document.querySelectorAll("[button-pagination]");
+// console.log(buttonPagination);
+if(buttonPagination){
+  buttonPagination.forEach(button => {
+    button.addEventListener("click", () => {
+      const page = button.getAttribute("button-pagination");
+      console.log(page);
+      const url = new URL(window.location.href);
+      url.searchParams.set("page", page);
+      window.location.href = url.toString();
+  });
+});
 }

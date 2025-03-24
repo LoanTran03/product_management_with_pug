@@ -28,7 +28,7 @@ include ../pages/partials/header.pug
     background: #333212;
     color: #fff;
     position: fixed;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 60px);
     top: 56px;
     left: 0;
 }
@@ -48,7 +48,6 @@ include ../pages/partials/header.pug
     color: #fff;
     text-align: center;
     padding: 10px 0;
-    position: fixed;
     bottom: 0;
     width: 100%;
 }

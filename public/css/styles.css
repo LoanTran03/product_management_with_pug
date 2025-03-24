@@ -25,6 +25,10 @@
     padding: 10px 0;
 }
 
+.body.main{
+    flex: 1;
+}
+
 .box-head{
     margin-bottom: 30px;
 }
