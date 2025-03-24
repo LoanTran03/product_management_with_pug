@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/filter-status.pug
+include ../../mixins/search.pug
 block content 
     h1 Products
     // card filter status
@@ -19,11 +20,7 @@ block content
                         option(value='inactive') Inactive
                 button.btn.btn-primary(type='submit') Filter    
             // search
-            form#form-search
-                .form-group
-                    label(for='search') Search
-                    input.form-control(name='search', type='text', value=searchInput)
-                button.btn.btn-primary(type='submit') Search
+            +search (searchInput)
     // card list products
     .card
         .card-header

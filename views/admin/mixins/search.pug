@@ -1,0 +1,6 @@
+mixin search (searchInput)
+    form#form-search
+        .form-group
+            label(for='search') Search
+            input.form-control(name='search', type='text', value=searchInput)
+            button.btn.btn-primary(type='submit') Search

@@ -1,37 +1,30 @@
 const Product = require("../../models/products.model");
 const filterStatusHelper = require("../../helpers/filterStatus.js");
+const searchHelper = require("../../helpers/search.js")
 module.exports.index = async (req, res) => {
     try {
         const filterStatus = filterStatusHelper(req.query);
-        // console.log('filterStatus', filterStatus);
-        
-        const { status, search } = req.query;
+        const searchData = searchHelper(req.query);
+
         const filter = {};
 
         // Lọc theo trạng thái
-        if (status === "active" || status === "inactive") {
-            filter.status = status === "active";
+        if (req.query.status === "active" || req.query.status === "inactive") {
+            filter.status = req.query.status === "active";
         }
 
         // Tìm kiếm theo tiêu đề
-        if (search) {
-            filter.title = { $regex: new RegExp(search, "i") }; // Không phân biệt hoa thường
+        if (searchData.regex) {
+            filter.title = searchData.regex;
         }
-
-        console.log("Filter Conditions:", filter);
 
         const products = await Product.find(filter);
-
-        if (!products.length) {
-            console.log("No products found.");
-        }
 
         res.render("admin/pages/products/index.pug", { 
             title: "Products",
             products: products,
-            // query: req.query  // 👈 Thêm dòng này để truyền query vào Pug
             filterStatus: filterStatus,
-            searchInput: search
+            searchInput: searchData.search 
         });
 
     } catch (error) {
