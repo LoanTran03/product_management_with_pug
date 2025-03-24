@@ -67,7 +67,19 @@ include ../pages/partials/header.pug
     border-bottom: 1px solid #fff;
 }
 
-button .active{
-    background: #333;
+
+/* button active
+.btn-group#filter-status
+                button.btn.btn-primary(type='button', value='') All
+                button.btn.btn-primary(type='button', value='active') Active
+                button.btn.btn-primary(type='button', value='inactive') Inactive */
+
+.btn-group .btn.isActive {
+    background-color: #007bff; /* Màu xanh dương */
     color: white;
+    border-color: black;
+}
+
+.btn-group .btn.isActive:hover {
+    background-color: #0056b3; /* Màu xanh đậm hơn khi hover */
 }

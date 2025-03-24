@@ -26,7 +26,9 @@ module.exports.index = async (req, res) => {
         res.render("admin/pages/products/index.pug", { 
             title: "Products",
             products: products,
-            query: req.query  // 👈 Thêm dòng này để truyền query vào Pug
+            // query: req.query  // 👈 Thêm dòng này để truyền query vào Pug
+            filterStatus: status,
+            searchInput: search
         });
 
     } catch (error) {
