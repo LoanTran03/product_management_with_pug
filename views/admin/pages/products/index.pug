@@ -50,13 +50,24 @@ block content
                             td= product.price
                             td= product.discount
                             td 
-                                if(product.status)
-                                    .badge.badge-success Active
-                                else
-                                    .badge.badge-danger Inactive
+                               a(
+                                    href="javascript:;"
+                                    button-change-status
+                                    data-status=`${product.status ? 'true' : 'false'}`
+                                    data-id=product._id
+                                    class=`badge ${product.status ? 'badge-success' : 'badge-danger'}`
+                                ) #{product.status ? 'Active' : 'Inactive'}
+
                             td
                                 a.btn.btn-primary(href=`${prefixAdmin}/products/${product.id}/edit`) Edit
                                 a.btn.btn-danger(href=`${prefixAdmin}/products/${product.id}/delete`) Delete
     
     +pagination(pagination)
+
+    form(
+        action=""
+        method="POST"
+        id="form-change-status"
+        data-path=`${prefixAdmin}/products/change-status`
+    )
 

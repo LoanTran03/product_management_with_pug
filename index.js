@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const methodOverride = require('method-override');
 const routeAdmin = require("./routes/admin/index.route");
 const route = require("./routes/client/index.route");
 const database = require("./config/connectDB"); //test connect database
@@ -14,6 +15,7 @@ app.set("views", "./views"); // Đảm bảo thư mục 'views' tồn tại
 
 app.use(express.json());
 app.use(express.static("public")); // Phục vụ file tĩnh từ thư mục public
+app.use(methodOverride('_method'));
 
 // prefixAdmin global variable
 app.locals.prefixAdmin = systemConfig.PREFIX_ADMIN;
