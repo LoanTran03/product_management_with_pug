@@ -1,0 +1,14 @@
+mixin form-change-status(path)
+    form#form-change-status(
+        action=path
+        method="POST"
+    )
+        select#status-select(name="statusChange")
+            option(value='active') Active
+            option(value='inactive') Inactive
+        input(
+            name='ids'
+            id='ids'
+            value=''
+        )
+        button.btn.btn-primary(type = 'submit') Change
