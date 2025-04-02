@@ -45,10 +45,36 @@ module.exports.index = async (req, res) => {
     }
 };
 
-// [GET] /admin/products/change-status/:status/:id
+// [PATCH] /admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
     const status = req.params.status;
     const id = req.params.id;
     await Product.updateOne({_id:id}, {status: status});
+    res.redirect('back');
+};
+// PATCH /admin/products/change-status/multi
+module.exports.changeStatusMulti = async (req, res) => {
+    console.log("REQ.BODY:", req.body);  // Kiểm tra dữ liệu nhận được
+
+    const ids = req.body.ids;  // Khai báo ids từ req.body
+    const statusChange = req.body.statusChange;  // Khai báo statusChange từ req.body
+
+    // Kiểm tra nếu thiếu dữ liệu
+    if (!ids || !statusChange) {
+        return res.status(400).send("Thiếu dữ liệu");
+    }
+
+    // Chuyển ids thành mảng
+    const idsArray = ids.split(",").map((id) => id.trim());
+
+    // Chuyển statusChange thành true/false
+    const isActive = (statusChange === "active" ? true : false);
+
+    // Cập nhật trạng thái cho các sản phẩm
+    await Product.updateMany(
+        { _id: { $in: idsArray } },
+        { status: isActive }
+    );
+    // Quay lại trang trước
     res.redirect('back');
 };

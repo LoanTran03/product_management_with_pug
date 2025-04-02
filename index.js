@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+
 const methodOverride = require('method-override');
 const routeAdmin = require("./routes/admin/index.route");
 const route = require("./routes/client/index.route");
@@ -7,7 +8,8 @@ const database = require("./config/connectDB"); //test connect database
 const systemConfig = require("./config/system"); ////////////////////////////////
 const app = express();
 const port = process.env.PORT || 3000; // Thêm giá trị mặc định nếu PORT không được định nghĩa
-
+// Middleware để xử lý dữ liệu form (application/x-www-form-urlencoded)
+app.use(express.urlencoded({ extended: true }));
 database.connect(); //test connect database
  
 app.set("view engine", "pug");
@@ -15,7 +17,7 @@ app.set("views", "./views"); // Đảm bảo thư mục 'views' tồn tại
 
 app.use(express.json());
 app.use(express.static("public")); // Phục vụ file tĩnh từ thư mục public
-app.use(methodOverride('_method'));
+app.use(methodOverride('_method')); // Override GET to POST, PUT, DELETE, PATCH  
 
 // prefixAdmin global variable
 app.locals.prefixAdmin = systemConfig.PREFIX_ADMIN;

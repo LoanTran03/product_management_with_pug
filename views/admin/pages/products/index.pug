@@ -27,10 +27,24 @@ block content
         .card-header
             h3.card-title List Products
         .card-body
-
+            form#form-change-status(
+                action=`${prefixAdmin}/products/change-multiple-status?_method=PATCH`
+                method="POST"
+            )
+                select#status-select(name="statusChange")
+                    option(value='active') Active
+                    option(value='inactive') Inactive
+                input(
+                    name='ids'
+                    id='ids'
+                    value=''
+                )
+                button.btn.btn-primary(type = 'submit') Change
             table.table.table-hover.table-sm
                 thead
-                    tr
+                    tr  
+                        th 
+                            input(type='checkbox', id='check-all')
                         th STT
                         th Name
                         th Thumbnail
@@ -40,7 +54,9 @@ block content
                         th Actions
                 tbody
                     each product,index in products
-                        tr
+                        tr  
+                            td
+                                input(type='checkbox', class='check-item', name='check-item', value=`${product._id}`)
                             // STT
                             td= index + 1
                             td= product.title
