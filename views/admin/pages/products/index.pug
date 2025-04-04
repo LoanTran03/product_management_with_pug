@@ -65,7 +65,10 @@ block content
 
                             td
                                 a.btn.btn-primary(href=`${prefixAdmin}/products/${product.id}/edit`) Edit
-                                a.btn.btn-danger(href=`${prefixAdmin}/products/${product.id}/delete`) Delete
+                                a.btn.btn-danger(
+                                    data-id=product._id
+                                    delete-item-button
+                                ) Delete
     
     +pagination(pagination)
 
@@ -74,5 +77,12 @@ block content
         method="POST"
         id="form-change-status"
         data-path=`${prefixAdmin}/products/change-status`
+    )
+
+    form(
+        action=""
+        method="POST"
+        id="form-delete-item"
+        data-path= `${prefixAdmin}/products/delete-item`
     )
 

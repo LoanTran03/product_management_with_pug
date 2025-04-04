@@ -64,23 +64,7 @@ if(checkboxChangeStatusItem.length > 0){
     });
   });
 }
-
-// submit form
-// PATCH /admin/products/change-status/multi
-// module.exports.changeStatusMulti = (req, res) => {
-//   res.send("change status multi");
-// };
-// Cannot GET /admin/null/change-status/multi?_method=PATCH
-// form#form-change-status(
-//   action=`${prefixAdmin}/products/change-multiple-status`
-//   method="POST"
-// )
-// form#form-change-status(
-//   action=`${prefixAdmin}/products/change-multiple-status?_method=PATCH`
-//   method="POST"
-//   data-statusChange = ``
-//   data-ids = ``
-// )
+// submit form change status
 formChangeStatus.addEventListener("submit", (e) => {
   e.preventDefault();
   const ids = inputIds.value;
@@ -90,3 +74,21 @@ formChangeStatus.addEventListener("submit", (e) => {
   }
   formChangeStatus.submit();
 });
+
+// delete item
+const buttonDelete = document.querySelectorAll("[delete-item-button]");
+const deleteForm = document.querySelector('#form-delete-item');
+if( buttonDelete.length > 0) {
+  buttonDelete.forEach((button) => {
+    button.addEventListener("click", () => {
+      let confirmDelete = confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?");
+      if (confirmDelete) {
+        let id = button.dataset.id || "Không có ID";
+        const path = deleteForm.getAttribute("data-path");
+        const action = path + `/${id}?_method=DELETE`;
+        deleteForm.action = action;
+        deleteForm.submit();
+      }
+    })
+  })
+}
