@@ -1,4 +1,7 @@
 require("dotenv").config();
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const flash = require('express-flash');
 const express = require("express");
 
 const methodOverride = require('method-override');
@@ -19,9 +22,21 @@ app.use(express.json());
 app.use(express.static("public")); // Phục vụ file tĩnh từ thư mục public
 app.use(methodOverride('_method')); // Override GET to POST, PUT, DELETE, PATCH  
 
+app.use(cookieParser("ABCDEF")); // Middleware để phân tích cookie
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+  });
+  
+
 // prefixAdmin global variable
 app.locals.prefixAdmin = systemConfig.PREFIX_ADMIN;
 console.log(app.locals.prefixAdmin); // prefixAdmin
+
+
 
 routeAdmin(app);
 route(app);

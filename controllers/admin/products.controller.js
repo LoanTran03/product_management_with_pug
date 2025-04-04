@@ -50,12 +50,13 @@ module.exports.index = async (req, res) => {
     }
 };
 
-// [PATCH] /admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
     const status = req.params.status;
     const id = req.params.id;
     await Product.updateOne({_id:id}, {status: status});
-    res.redirect('back');
+    // SUCCESS ALERT
+    req.flash("success", "Cập nhật trạng thái thành công");
+    res.redirect("back");
 };
 // PATCH /admin/products/change-status/multiple 
 // Cả thay đổi status và xóa nhiều sản phẩm
@@ -80,6 +81,7 @@ module.exports.changeStatusMulti = async (req, res) => {
                 { _id: { $in: idsArray } },
                 { status: isActive }
             );
+            req.flash("success", "Cập nhật trạng thái nhiều sản phẩm thành công");
             break;
         case "delete":
             // Xóa nhiều sản phẩm trong trường hợp xóa cứng
@@ -92,6 +94,7 @@ module.exports.changeStatusMulti = async (req, res) => {
                     deletedAt: Date.now()
                 }
             );
+            req.flash("success", "Xóa nhiều sản phẩm thành công");
             break;
         case "change-position":
             // Thay đổi vị trí cho các sản phẩm
@@ -102,6 +105,7 @@ module.exports.changeStatusMulti = async (req, res) => {
                     { position: parseInt(position) }
                 );
             }
+            req.flash("success", "Cập nhật vị trí thành công");
             break;
         default:
             return res.status(400).send("Trạng thái không hợp lệ");
@@ -115,5 +119,6 @@ module.exports.delete = async (req, res) => {
         deleted: true,
         deletedAt: Date.now()
     }); // Xóa mềm
+    req.flash("success", "Xóa sản phẩm thành công");
     res.redirect('back');
 }

@@ -1,0 +1,12 @@
+mixin alert(message, time)
+  if message 
+    .alert.alert-success.alert-dismissible.fade.show(role='alert')
+      p= message
+      button.close(type='button', data-dismiss='alert', aria-label='Close')
+        span(aria-hidden='true') &times;
+    if time 
+      script.
+        setTimeout(function() {
+          const alertBox = document.querySelector('.alert');
+          if (alertBox) alertBox.style.display = 'none';
+        }, #{time});
