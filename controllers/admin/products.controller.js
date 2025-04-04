@@ -10,7 +10,9 @@ module.exports.index = async (req, res) => {
         
         const filterStatus = filterStatusHelper(req.query);
         const searchData = searchHelper(req.query);
-        const filter = {};
+        const filter = {
+            deleted: false
+        };
 
         // Lọc theo trạng thái
         if (req.query.status === "active" || req.query.status === "inactive") {
@@ -78,26 +80,28 @@ module.exports.changeStatusMulti = async (req, res) => {
             break;
         case "delete":
             // Xóa nhiều sản phẩm trong trường hợp xóa cứng
-            await Product.deleteMany({ _id: { $in: idsArray } });
+            // await Product.deleteMany({ _id: { $in: idsArray } });
+            // Xóa mềm
+            await Product.updateMany(
+                { _id: { $in: idsArray } },
+                {
+                    deleted: true,
+                    deletedAt: Date.now()
+                }
+            );
+
             break;
         default:
             return res.status(400).send("Trạng thái không hợp lệ");
     }
-    // Cập nhật, xóa trong trường hợp xóa mềm
-    // await Product.updateMany(
-    //     { _id: { $in: idsArray } },
-    //     { status: isActive }
-    // );
-
-    // Quay lại trang trước
     res.redirect('back');
 };
 module.exports.delete = async (req, res) => {
     const id = req.params.id;
-    await Product.deleteOne({_id:id});
-    // await Product.updateOne({_id:id}, {
-    //     deleted: true,
-    //     deletedAt: Date.now()
-    // }); // Xóa mềm
+    // await Product.deleteOne({_id:id});
+    await Product.updateOne({_id:id}, {
+        deleted: true,
+        deletedAt: Date.now()
+    }); // Xóa mềm
     res.redirect('back');
 }
