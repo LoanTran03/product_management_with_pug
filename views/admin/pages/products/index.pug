@@ -53,7 +53,14 @@ block content
                             td
                                 img(src=`${product.thumbnail}`, alt=`${product.title}`, width='100')
                             td= product.price
-                            td= product.discount
+                            td= product.discountPercentage
+                            td 
+                                input(
+                                    type='number'
+                                    class='form-control'
+                                    name='position'
+                                    value=product.position
+                                )
                             td 
                                a(
                                     href="javascript:;"

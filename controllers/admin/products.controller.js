@@ -29,9 +29,12 @@ module.exports.index = async (req, res) => {
 
         const productsCount = await Product.countDocuments(filter);
         objectPagination = paginationHelper(req.query.page, productsCount);
+        // position tang dan 
+
         products = await Product.find(filter)
             .limit(objectPagination.limitItems)
-            .skip(objectPagination.skip);
+            .skip(objectPagination.skip)
+            .sort({ position: "desc" });
 
         res.render("admin/pages/products/index.pug", { 
             title: "Products",
@@ -54,14 +57,14 @@ module.exports.changeStatus = async (req, res) => {
     await Product.updateOne({_id:id}, {status: status});
     res.redirect('back');
 };
-// PATCH /admin/products/change-status/multi 
+// PATCH /admin/products/change-status/multiple 
 // Cả thay đổi status và xóa nhiều sản phẩm
 module.exports.changeStatusMulti = async (req, res) => {
     console.log("REQ.BODY:", req.body);  // Kiểm tra dữ liệu nhận được
     const ids = req.body.ids;  // Khai báo ids từ req.body
     const statusChange = req.body.statusChange;  // Khai báo statusChange từ req.body
-    // console.log("IDs:", ids);  // Kiểm tra ids
-    // console.log("Status Change:", statusChange);  // Kiểm tra statusChange
+    console.log("IDs:", ids);  // Kiểm tra ids
+    console.log("Status Change:", statusChange);  // Kiểm tra statusChange
     // Kiểm tra nếu thiếu dữ liệu
     if (!ids || !statusChange) {
         return res.status(400).send("Thiếu dữ liệu");
@@ -89,7 +92,16 @@ module.exports.changeStatusMulti = async (req, res) => {
                     deletedAt: Date.now()
                 }
             );
-
+            break;
+        case "change-position":
+            // Thay đổi vị trí cho các sản phẩm
+            for (let i = 0; i < idsArray.length; i++) {
+                const [id, position] = idsArray[i].split("-");
+                await Product.updateOne(
+                    { _id: id },
+                    { position: parseInt(position) }
+                );
+            }
             break;
         default:
             return res.status(400).send("Trạng thái không hợp lệ");
