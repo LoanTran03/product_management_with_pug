@@ -52,29 +52,43 @@ module.exports.changeStatus = async (req, res) => {
     await Product.updateOne({_id:id}, {status: status});
     res.redirect('back');
 };
-// PATCH /admin/products/change-status/multi
+// PATCH /admin/products/change-status/multi 
+// Cả thay đổi status và xóa nhiều sản phẩm
 module.exports.changeStatusMulti = async (req, res) => {
     console.log("REQ.BODY:", req.body);  // Kiểm tra dữ liệu nhận được
-
     const ids = req.body.ids;  // Khai báo ids từ req.body
     const statusChange = req.body.statusChange;  // Khai báo statusChange từ req.body
-
+    // console.log("IDs:", ids);  // Kiểm tra ids
+    // console.log("Status Change:", statusChange);  // Kiểm tra statusChange
     // Kiểm tra nếu thiếu dữ liệu
     if (!ids || !statusChange) {
         return res.status(400).send("Thiếu dữ liệu");
     }
-
-    // Chuyển ids thành mảng
     const idsArray = ids.split(",").map((id) => id.trim());
+    // 
+    switch (statusChange) {
+        case "active":
+        case "inactive":
+            // Cập nhật trạng thái cho các sản phẩm
+            const isActive = (statusChange === "active" ? true : false);
+            await Product.updateMany(
+                { _id: { $in: idsArray } },
+                { status: isActive }
+            );
+            break;
+        case "delete":
+            // Xóa nhiều sản phẩm trong trường hợp xóa cứng
+            await Product.deleteMany({ _id: { $in: idsArray } });
+            break;
+        default:
+            return res.status(400).send("Trạng thái không hợp lệ");
+    }
+    // Cập nhật, xóa trong trường hợp xóa mềm
+    // await Product.updateMany(
+    //     { _id: { $in: idsArray } },
+    //     { status: isActive }
+    // );
 
-    // Chuyển statusChange thành true/false
-    const isActive = (statusChange === "active" ? true : false);
-
-    // Cập nhật trạng thái cho các sản phẩm
-    await Product.updateMany(
-        { _id: { $in: idsArray } },
-        { status: isActive }
-    );
     // Quay lại trang trước
     res.redirect('back');
 };

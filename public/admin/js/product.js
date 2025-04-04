@@ -3,8 +3,8 @@ const buttonChangeStatus = document.querySelectorAll(
   "[button-change-status]"
 );
 if (buttonChangeStatus.length > 0) {
-  const formChangeStatus = document.querySelector("#form-change-status");
-  const path = formChangeStatus.getAttribute("data-path");
+  const formChangeMulti = document.querySelector("#form-change-status");
+  const path = formChangeMulti.getAttribute("data-path");
   buttonChangeStatus.forEach((button) => {
     button.addEventListener("click", () => {
       let statusCurrent = button.dataset.status === "true";
@@ -12,8 +12,8 @@ if (buttonChangeStatus.length > 0) {
 
       let statusChange = statusCurrent === true ? false : true;
       const action = path +   `/${statusChange}/${id}?_method=PATCH`;
-      formChangeStatus.action = action;
-      formChangeStatus.submit();
+      formChangeMulti.action = action;
+      formChangeMulti.submit();
     });
   });
 }
@@ -21,8 +21,8 @@ if (buttonChangeStatus.length > 0) {
 // change status multi
 const checkboxChangeStatusItem = document.querySelectorAll(".check-item");
 const checkboxChangeStatusAll = document.querySelector("#check-all");
-const formChangeStatus = document.querySelector("#form-change-status");
-const inputIds = formChangeStatus.querySelector("#ids");
+const formChangeMulti = document.querySelector("#form-change-multi");
+const inputIds = formChangeMulti.querySelector("#ids");
 if(checkboxChangeStatusAll){
   let ids = [];
   checkboxChangeStatusAll.addEventListener("click", () => {
@@ -65,14 +65,24 @@ if(checkboxChangeStatusItem.length > 0){
   });
 }
 // submit form change status
-formChangeStatus.addEventListener("submit", (e) => {
+formChangeMulti.addEventListener("submit", (e) => {
   e.preventDefault();
+  const statusChange = formChangeMulti.querySelector("#status-select").value;
+  // console.log("Status Change:", statusChange);
   const ids = inputIds.value;
   if (ids.length === 0) {
       alert("Vui lòng chọn ít nhất một sản phẩm để thay đổi trạng thái");
       return;
   }
-  formChangeStatus.submit();
+
+  if(statusChange === "delete") {
+    let confirmDelete = confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?");
+    if (!confirmDelete) {
+      return;
+    }
+  }
+  
+  formChangeMulti.submit();
 });
 
 // delete item

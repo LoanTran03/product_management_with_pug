@@ -2,7 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
-include ../../mixins/form-change-status.pug
+include ../../mixins/form-change-multi.pug
 block content 
     h1 Products
     // card filter status
@@ -28,7 +28,7 @@ block content
         .card-header
             h3.card-title List Products
         .card-body
-            +form-change-status(`${prefixAdmin}/products/change-multiple-status?_method=PATCH`)
+            +form-change-multi(`${prefixAdmin}/products/change-multiple?_method=PATCH`)
             table.table.table-hover.table-sm
                 thead
                     tr  

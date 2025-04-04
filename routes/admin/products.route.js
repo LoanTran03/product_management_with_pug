@@ -4,7 +4,7 @@ const productControllerAdmin = require("../../controllers/admin/products.control
 
 route.get("/", productControllerAdmin.index);
 route.patch("/change-status/:status/:id", productControllerAdmin.changeStatus);
-route.patch("/change-multiple-status", productControllerAdmin.changeStatusMulti);
+route.patch("/change-multiple", productControllerAdmin.changeStatusMulti);
 route.delete("/delete-item/:id", productControllerAdmin.delete);
 
 module.exports = route;

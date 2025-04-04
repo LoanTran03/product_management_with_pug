@@ -1,12 +1,15 @@
-mixin form-change-status(path)
-    form#form-change-status(
+mixin form-change-multi(path)
+    form#form-change-multi(
         action=path
         method="POST"
     )
         select#status-select(name="statusChange")
+            option(disable selected) Select status
             option(value='active') Active
             option(value='inactive') Inactive
+            option(value='delete') Delete
         input(
+            type='hidden'
             name='ids'
             id='ids'
             value=''
