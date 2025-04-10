@@ -26,8 +26,8 @@ app.use(cookieParser("ABCDEF")); // Middleware để phân tích cookie
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
 app.use((req, res, next) => {
-    res.locals.success = req.flash("success");
-    res.locals.error = req.flash("error");
+    res.locals.successMesage = req.flash("successMesage");
+    res.locals.errorMessage = req.flash("errorMessage");
     next();
   });
   

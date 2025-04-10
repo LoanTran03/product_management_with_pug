@@ -1,6 +1,6 @@
-mixin alert(message, time)
+mixin alert(message, time, type)
   if message 
-    .alert.alert-success.alert-dismissible.fade.show(role='alert')
+    .alert(class=`alert-${type || 'success'} alert-dismissible fade show` role='alert')
       p= message
       button.close(type='button', data-dismiss='alert', aria-label='Close')
         span(aria-hidden='true') &times;

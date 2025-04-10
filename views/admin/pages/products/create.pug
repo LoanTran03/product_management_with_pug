@@ -1,5 +1,10 @@
 extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
 block content 
+    +alert(errorMessage && errorMessage[0], 3000, 'danger')
+    +alert(successMessage && successMessage[0], 3000, 'success')
+
     h1 Create Product
     form(action=`${prefixAdmin}/products/create`, method="POST", create-product-form, enctype="multipart/form-data")
         div
