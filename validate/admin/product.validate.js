@@ -16,3 +16,11 @@ module.exports.createPost = (req, res, next) => {
     }
     next();
 }
+module.exports.editPost = (req, res, next) => {
+    if(!req.body.title) {
+        req.flash("errorMessage", "Có lỗi xảy ra khi cập nhật sản phẩm!");
+        res.redirect("back");
+        return;
+    }
+    next();
+}

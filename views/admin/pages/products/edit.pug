@@ -1,0 +1,39 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block content 
+    +alert(errorMessage && errorMessage[0], 3000, 'danger')
+    +alert(successMessage && successMessage[0], 3000, 'success')
+
+    h1 Edit Product
+    form(action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`, method="POST", edit-product-form, enctype="multipart/form-data")
+        div
+            label(for="title") Title
+            input(type="text", name="title", required, value=product.title)
+        div
+            label(for="description") Description
+            textarea(name="description", value=product.description)
+        div
+            label(for="price") Price
+            input(type="number", name="price", required, value=product.price)
+        div
+            label(for="discountPercentage") Discount Percentage
+            input(type="number", name="discountPercentage", value=product.discountPercentage)
+        div
+            label(for="stock") Stock
+            input(type="number", name="stock", required, value=product.stock)
+        div(upload-image)
+            label(for="thumbnail") Thumbnail
+            input(type="file", name="thumbnail", accept="image/*", upload-image-input, value=product.thumbnail)
+            img(src=product.thumbnail, alt="Product Thumbnail", upload-image-preview, style="max-width: 200px; display: block;")
+        div
+            lable(for="position") Position
+            input(type="number", name="position", required, value=product.position)
+        div
+            label(for="status") Status
+            select(name="status")
+                // checked 
+                option(value="active", selected=product.status === true) Active
+                option(value="inactive", selected=product.status === false) Inactive
+        div
+            button(type="submit") Edit Product

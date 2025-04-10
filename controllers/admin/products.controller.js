@@ -169,4 +169,54 @@ module.exports.postCreate = async (req, res) => {
         req.flash("error", "Lỗi khi tạo sản phẩm");
         res.redirect("/admin/products");
     }
+} 
+module.exports.edit = async (req, res) => {
+    const id = req.params.id;
+    // deleted : false
+    const product = await Product.findOne({_id: id, deleted: false});
+    if(product){
+        res.render("admin/pages/products/edit.pug", {
+            title: "Edit Product",
+            product: product
+        })
+    }
+    else {
+        req.flash("errorMessage", "Sản phẩm không tồn tại");
+        res.redirect("/admin/products");
+    }
+}
+module.exports.postEdit = async (req, res) => {
+    const id = req.params.id;
+    req.body.price = parseFloat(req.body.price);
+    if (isNaN(req.body.price)) req.body.price = 0;  // Nếu không hợp lệ, gán giá trị mặc định
+
+    req.body.discountPercentage = parseFloat(req.body.discountPercentage);
+    if (isNaN(req.body.discountPercentage)) req.body.discountPercentage = 0;  // Nếu không hợp lệ, gán giá trị mặc định
+
+    req.body.stock = parseInt(req.body.stock);
+    if (isNaN(req.body.stock)) req.body.stock = 0;  // Nếu không hợp lệ, gán giá trị mặc định
+
+    req.body.status = req.body.status === "active" ? true : false;
+
+    if (req.body.position) {
+        req.body.position = parseInt(req.body.position);
+        if (isNaN(req.body.position)) req.body.position = 0;  // Nếu không hợp lệ, gán giá trị mặc định
+    } else {
+        req.body.position = 0;  // Nếu không có vị trí, gán giá trị mặc định
+    }
+
+    if (req.file) {
+        req.body.thumbnail = `/uploads/products/${req.file.filename}`; // đúng đường dẫn public
+    }
+    
+    try {
+        await Product.updateOne({_id: id}, req.body);
+        req.flash("success", "Cập nhật sản phẩm thành công");
+        // back
+        res.redirect("/admin/products");
+    } catch (error) {
+        console.error(error);
+        req.flash("error", "Lỗi khi cập nhật sản phẩm");
+        res.redirect("/admin/products");
+    }
 }

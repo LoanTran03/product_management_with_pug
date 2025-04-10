@@ -1,4 +1,4 @@
 mixin filter-status(filterStatus)
     .btn-group#filter-status
-                each item in filterStatus 
-                    button.btn.btn-primary(class=item.class, type='button', value=item.status) #{item.name}
+        each item in filterStatus 
+            button.btn.btn-primary(class=item.class, type='button', value=item.status) #{item.name}

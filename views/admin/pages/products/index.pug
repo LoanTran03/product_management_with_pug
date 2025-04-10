@@ -5,6 +5,7 @@ include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/alert.pug
 
+
 block content 
     // alert
     +alert(errorMessage && errorMessage[0], 3000, 'danger')
@@ -16,7 +17,7 @@ block content
             h3.card-title Filter
         .card-body
             // 3 button filter All, Active, Inactive have class isActive?
-            +filter-status(filterStatus)
+            +filter-status(filterStatus) 
             // form filter
             form#form-filter
                 .form-group
@@ -85,7 +86,7 @@ block content
                                 ) #{product.status ? 'Active' : 'Inactive'}
 
                             td
-                                a.btn.btn-primary(href=`${prefixAdmin}/products/${product.id}/edit`) Edit
+                                a.btn.btn-primary(href=`${prefixAdmin}/products/edit/${product.id}`) Edit
                                 a.btn.btn-danger(
                                     data-id=product._id
                                     delete-item-button
