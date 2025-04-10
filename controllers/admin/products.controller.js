@@ -220,3 +220,18 @@ module.exports.postEdit = async (req, res) => {
         res.redirect("/admin/products");
     }
 }
+
+module.exports.detail = async (req, res) => {
+    const id = req.params.id;
+    const product = await Product.findOne({_id: id, deleted: false});
+    if(product){
+        res.render("admin/pages/products/detail.pug", {
+            title: "Detail Product",
+            product: product
+        })
+    }
+    else {
+        req.flash("errorMessage", "Sản phẩm không tồn tại");
+        res.redirect("/admin/products");
+    }
+}

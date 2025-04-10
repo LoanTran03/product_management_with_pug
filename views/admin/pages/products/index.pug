@@ -91,6 +91,8 @@ block content
                                     data-id=product._id
                                     delete-item-button
                                 ) Delete
+                            td
+                                a.btn.btn-info(href=`${prefixAdmin}/products/detail/${product.id}`) Detail
     
     +pagination(pagination)
 

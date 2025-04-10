@@ -1,0 +1,23 @@
+extends ../../layouts/default.pug
+block content 
+    .card
+        .card-header
+            h3.card-title= product.title
+            a(href=`${prefixAdmin}/products`, class='btn btn-primary float-right') Back
+        .card-body
+            .row
+                .col-md-6
+                    img(src=product.thumbnail, alt="Product Thumbnail", style="max-width: 100%;")
+                .col-md-6
+                    h4 Description
+                    p= product.description
+                    h4 Price
+                    p= product.price
+                    h4 Discount Percentage
+                    p= product.discountPercentage
+                    h4 Stock
+                    p= product.stock
+                    h4 Position
+                    p= product.position
+                    h4 Status
+                    p= product.status ? 'Active' : 'Inactive'
