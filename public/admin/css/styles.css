@@ -38,6 +38,7 @@ include ../pages/partials/header.pug
     position: relative; 
     left: 150px;
     width: calc(100% - 180px);
+    height : calc(100vh - 120px);
 }
 
 /* End body */

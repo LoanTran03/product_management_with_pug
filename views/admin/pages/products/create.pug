@@ -1,0 +1,33 @@
+extends ../../layouts/default.pug
+block content 
+    h1 Create Product
+    form(action=`${prefixAdmin}/products/create`, method="POST", create-product-form, enctype="multipart/form-data")
+        div
+            label(for="title") Title
+            input(type="text", name="title", required)
+        div
+            label(for="description") Description
+            textarea(name="description", required)
+        div
+            label(for="price") Price
+            input(type="number", name="price", required)
+        div
+            label(for="discountPercentage") Discount Percentage
+            input(type="number", name="discountPercentage")
+        div
+            label(for="stock") Stock
+            input(type="number", name="stock", required)
+        div(upload-image)
+            label(for="thumbnail") Thumbnail
+            input(type="file", name="thumbnail", accept="image/*", upload-image-input, required)
+            img(src="", alt="Product Thumbnail", upload-image-preview, style="max-width: 200px; display: none;")
+        div
+            lable(for="position") Position
+            input(type="number", name="position", required)
+        div
+            label(for="status") Status
+            select(name="status")
+                option(value="active") Active
+                option(value="inactive") Inactive
+        div
+            button(type="submit") Create Product

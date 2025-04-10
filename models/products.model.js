@@ -9,8 +9,14 @@ const ProductsSchema = new mongoose.Schema({
     thumbnail: String,
     status: Boolean,
     position: Number,
-    deleted: Boolean,
+    deleted: {
+        type: Boolean,
+        default: false
+    },
     deletedAt: Date
+},
+{
+    timestamps: true // Tạo trường createdAt và updatedAt
 });
 
 

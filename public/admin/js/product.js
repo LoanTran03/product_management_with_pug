@@ -30,10 +30,12 @@ if (checkboxChangeStatusAll) {
       checkbox.checked = checkboxChangeStatusAll.checked;
     });
     // if checkboxChangeStatusAll is checked, get all id - position
-    if(statusChange.value === "change-position") {
+    if (statusChange.value === "change-position") {
       checkboxChangeStatusItem.forEach((checkbox) => {
-        let positionInput = checkbox.closest('tr').querySelector("input[name='position']");
-        let positionValue = positionInput ? positionInput.value : 0;  
+        let positionInput = checkbox
+          .closest("tr")
+          .querySelector("input[name='position']");
+        let positionValue = positionInput ? positionInput.value : 0;
         ids.push(`${checkbox.value}-${positionValue}`);
       });
     }
@@ -48,14 +50,17 @@ if (checkboxChangeStatusItem.length > 0) {
   checkboxChangeStatusItem.forEach((checkbox) => {
     checkbox.addEventListener("click", () => {
       checkedCount += checkbox.checked ? 1 : -1;
-      checkboxChangeStatusAll.checked = checkedCount === checkboxChangeStatusItem.length;
+      checkboxChangeStatusAll.checked =
+        checkedCount === checkboxChangeStatusItem.length;
 
       let ids = [];
       checkboxChangeStatusItem.forEach((checkbox) => {
         if (checkbox.checked) {
-          if(statusChange.value === "change-position") {
-            let positionInput = checkbox.closest('tr').querySelector("input[name='position']");
-            let positionValue = positionInput ? positionInput.value : 0;  
+          if (statusChange.value === "change-position") {
+            let positionInput = checkbox
+              .closest("tr")
+              .querySelector("input[name='position']");
+            let positionValue = positionInput ? positionInput.value : 0;
             ids.push(`${checkbox.value}-${positionValue}`);
           } else {
             ids.push(checkbox.value);
@@ -68,14 +73,16 @@ if (checkboxChangeStatusItem.length > 0) {
   });
 }
 
-if(statusChange) {
+if (statusChange) {
   statusChange.addEventListener("change", () => {
     let ids = [];
     checkboxChangeStatusItem.forEach((checkbox) => {
       if (checkbox.checked) {
-        if(statusChange.value === "change-position") {
-          let positionInput = checkbox.closest('tr').querySelector("input[name='position']");
-          let positionValue = positionInput ? positionInput.value : 0;  
+        if (statusChange.value === "change-position") {
+          let positionInput = checkbox
+            .closest("tr")
+            .querySelector("input[name='position']");
+          let positionValue = positionInput ? positionInput.value : 0;
           ids.push(`${checkbox.value}-${positionValue}`);
         } else {
           ids.push(checkbox.value);
@@ -88,28 +95,34 @@ if(statusChange) {
 }
 
 // Submit form change status
-formChangeMulti.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const ids = inputIds.value;
-  if (ids.length === 0) {
-    alert("Vui lòng chọn ít nhất một sản phẩm để thay đổi trạng thái");
-    return;
-  }
+if (formChangeMulti) {
+  formChangeMulti.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const ids = inputIds.value;
+    if (ids.length === 0) {
+      alert("Vui lòng chọn ít nhất một sản phẩm để thay đổi trạng thái");
+      return;
+    }
 
-  if (statusChange === "delete") {
-    let confirmDelete = confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?");
-    if (!confirmDelete) return;
-  }
-  formChangeMulti.submit();
-});
+    if (statusChange === "delete") {
+      let confirmDelete = confirm(
+        "Bạn có chắc chắn muốn xóa sản phẩm này không?"
+      );
+      if (!confirmDelete) return;
+    }
+    formChangeMulti.submit();
+  });
+}
 
 // Delete item
 const buttonDelete = document.querySelectorAll("[delete-item-button]");
-const deleteForm = document.querySelector('#form-delete-item');
+const deleteForm = document.querySelector("#form-delete-item");
 if (buttonDelete.length > 0) {
   buttonDelete.forEach((button) => {
     button.addEventListener("click", () => {
-      let confirmDelete = confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?");
+      let confirmDelete = confirm(
+        "Bạn có chắc chắn muốn xóa sản phẩm này không?"
+      );
       if (confirmDelete) {
         let id = button.dataset.id || "Không có ID";
         const path = deleteForm.getAttribute("data-path");
@@ -117,6 +130,6 @@ if (buttonDelete.length > 0) {
         deleteForm.action = action;
         deleteForm.submit();
       }
-    })
-  })
+    });
+  });
 }

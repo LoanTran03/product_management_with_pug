@@ -32,7 +32,15 @@ block content
         .card-header
             h3.card-title List Products
         .card-body
-            +form-change-multi(`${prefixAdmin}/products/change-multiple?_method=PATCH`)
+            .row 
+                .col-9
+                    +form-change-multi(`${prefixAdmin}/products/change-multiple?_method=PATCH`)
+                .col-3
+                    button 
+                        a(
+                            href=`${prefixAdmin}/products/create`
+                            class='btn btn-primary'
+                        )| Create Product
             table.table.table-hover.table-sm
                 thead
                     tr  
@@ -43,6 +51,7 @@ block content
                         th Thumbnail
                         th Price
                         th Discount
+                        th Position
                         th Status
                         th Actions
                 tbody

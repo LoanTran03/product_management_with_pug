@@ -122,3 +122,51 @@ module.exports.delete = async (req, res) => {
     req.flash("success", "Xóa sản phẩm thành công");
     res.redirect('back');
 }
+module.exports.create = async (req, res) => {
+    res.render("admin/pages/products/create.pug", {
+        title: "Create Product",
+        product: null
+    });
+}
+module.exports.postCreate = async (req, res) => {
+    console.log(req.body);
+    console.log("req.file");
+    console.log(req.file);
+    // Chuyển đổi giá trị và kiểm tra tính hợp lệ
+    req.body.price = parseFloat(req.body.price);
+    if (isNaN(req.body.price)) req.body.price = 0;  // Nếu không hợp lệ, gán giá trị mặc định
+
+    req.body.discountPercentage = parseFloat(req.body.discountPercentage);
+    if (isNaN(req.body.discountPercentage)) req.body.discountPercentage = 0;  // Nếu không hợp lệ, gán giá trị mặc định
+
+    req.body.stock = parseInt(req.body.stock);
+    if (isNaN(req.body.stock)) req.body.stock = 0;  // Nếu không hợp lệ, gán giá trị mặc định
+
+    req.body.status = req.body.status === "active" ? true : false;
+
+    if (req.body.position) {
+        req.body.position = parseInt(req.body.position);
+        if (isNaN(req.body.position)) req.body.position = 0;  // Nếu không hợp lệ, gán giá trị mặc định
+    } else {
+        req.body.position = 0;  // Nếu không có vị trí, gán giá trị mặc định
+    }
+
+    // Kiểm tra xem có file không
+    if (req.file) {
+        req.body.thumbnail = `/uploads/products/${req.file.filename}`; // đúng đường dẫn public
+    }
+    
+
+    console.log("req.body.thumbnail");
+
+    const product = new Product(req.body);
+    try {
+        await product.save();
+        req.flash("success", "Thêm sản phẩm thành công");
+        res.redirect("/admin/products");
+    } catch (error) {
+        console.error(error);
+        req.flash("error", "Lỗi khi tạo sản phẩm");
+        res.redirect("/admin/products");
+    }
+}
