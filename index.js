@@ -25,21 +25,15 @@ app.set("view engine", "pug");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(methodOverride('_method'));
-app.use(express.static(path.join(__dirname, "public"))); // ⬅️ dùng __dirname
+app.use(express.static(path.join(__dirname, "public")));
 
-console.log("Dang ket noi mongoDB")
+console.log("🔗 Đang kết nối MongoDB...");
 database.connect();
 
-console.log("Dang khoi tao middleware cookie-parser")
+console.log("🔐 Khởi tạo middleware session + flash");
 app.use(cookieParser("ABCDEF"));
 
-app.use(flash());
-
-app.use((req, res, next) => {
-  res.locals.successMesage = req.flash("successMesage");
-  res.locals.errorMessage = req.flash("errorMessage");
-  next();
-});
+// ✅ Đặt session trước flash()
 app.use(session({
   secret: process.env.SESSION_SECRET || 'ABCDEF',
   resave: false,
@@ -49,16 +43,26 @@ app.use(session({
     ttl: 14 * 24 * 60 * 60, // 14 ngày
   }),
 }));
-console.log("setup routes")
+
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.successMesage = req.flash("successMesage");
+  res.locals.errorMessage = req.flash("errorMessage");
+  next();
+});
+
+console.log("📦 Setup routes...");
 app.locals.prefixAdmin = systemConfig.PREFIX_ADMIN;
 routeAdmin(app);
 route(app);
 
-console.log("ket thuc setup")
+console.log("✅ Khởi tạo hoàn tất");
+
 // ✅ Nếu chạy local, dùng app.listen
 if (!isVercel) {
   app.listen(port, () => {
-    console.log(`✅ App running at http://localhost:${port}`);
+    console.log(`🚀 App running at http://localhost:${port}`);
   });
 }
 
