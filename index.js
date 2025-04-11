@@ -2,7 +2,7 @@ const express = require("express");
 const serverless = require("serverless-http");
 const dotenv = require("dotenv");
 const path = require("path");
-
+const MongoStore = require("connect-mongo");
 dotenv.config();
 
 const cookieParser = require('cookie-parser');
@@ -32,12 +32,7 @@ database.connect();
 
 console.log("Dang khoi tao middleware cookie-parser")
 app.use(cookieParser("ABCDEF"));
-app.use(session({
-  secret: 'ABCDEF', // hoặc dùng biến môi trường
-  resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 60000 }
-}));
+
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -45,7 +40,15 @@ app.use((req, res, next) => {
   res.locals.errorMessage = req.flash("errorMessage");
   next();
 });
-
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'ABCDEF',
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URL,
+    ttl: 14 * 24 * 60 * 60, // 14 ngày
+  }),
+}));
 console.log("setup routes")
 app.locals.prefixAdmin = systemConfig.PREFIX_ADMIN;
 routeAdmin(app);
