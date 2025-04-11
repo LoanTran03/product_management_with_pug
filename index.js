@@ -27,10 +27,17 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, "public"))); // ⬅️ dùng __dirname
 
+console.log("Dang ket noi mongoDB")
 database.connect();
 
+console.log("Dang khoi tao middleware cookie-parser")
 app.use(cookieParser("ABCDEF"));
-app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(session({
+  secret: 'ABCDEF', // hoặc dùng biến môi trường
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 60000 }
+}));
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -39,10 +46,12 @@ app.use((req, res, next) => {
   next();
 });
 
+console.log("setup routes")
 app.locals.prefixAdmin = systemConfig.PREFIX_ADMIN;
 routeAdmin(app);
 route(app);
 
+console.log("ket thuc setup")
 // ✅ Nếu chạy local, dùng app.listen
 if (!isVercel) {
   app.listen(port, () => {
