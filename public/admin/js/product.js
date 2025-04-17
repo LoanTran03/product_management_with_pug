@@ -137,21 +137,27 @@ if (buttonDelete.length > 0) {
 const sortSelect = document.querySelector("[sort-select]");
 const sortClear = document.querySelector("[sort-clear]");
 
-// Khi người dùng chọn một sort option
+// Gán giá trị của select từ URL query
 if (sortSelect) {
+  const url = new URL(window.location.href);
+  const sortValue = url.searchParams.get("sort");
+  if (sortValue) {
+    sortSelect.value = sortValue;
+  }
+
+  // Khi người dùng chọn một option
   sortSelect.addEventListener("change", () => {
-    let sortValue = sortSelect.value;
-    let url = new URL(window.location.href);
-    url.searchParams.set("sort", sortValue); // Cập nhật query param
-    window.location.href = url.toString(); // Reload lại trang với query mới
+    const newValue = sortSelect.value;
+    url.searchParams.set("sort", newValue);
+    window.location.href = url.toString();
   });
 }
 
-// Khi người dùng click "CLEAR SORT"
+// CLEAR SORT
 if (sortClear) {
   sortClear.addEventListener("click", () => {
-    let url = new URL(window.location.href);
-    url.searchParams.delete("sort"); // Xóa param
-    window.location.href = url.toString(); // ⚠️ Thiếu dòng này → cần reload lại
+    const url = new URL(window.location.href);
+    url.searchParams.delete("sort");
+    window.location.href = url.toString(); // reload lại
   });
 }
