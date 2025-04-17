@@ -150,14 +150,15 @@ module.exports.postCreate = async (req, res) => {
     } else {
         req.body.position = 0;  // Nếu không có vị trí, gán giá trị mặc định
     }
+    console.log("req.body");
 
     // Kiểm tra xem có file không
-    if (req.file) {
-        req.body.thumbnail = `/uploads/products/${req.file.filename}`; // đúng đường dẫn public
-    }
+    // if (req.file) {
+    //     req.body.thumbnail = `/uploads/products/${req.file.filename}`; // đúng đường dẫn public
+    // }
     
 
-    console.log("req.body.thumbnail");
+    console.log(req.body);
 
     const product = new Product(req.body);
     try {

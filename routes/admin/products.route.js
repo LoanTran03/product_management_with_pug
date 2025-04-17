@@ -1,17 +1,20 @@
 const express = require("express");
 const route = express.Router();
 const multer = require("multer");
-const storageMulter = require("../../helpers/storageMulter");
-const upload = multer({ storage: storageMulter() });
+const memoryStorage = multer.memoryStorage();
+const upload = multer({ storage: memoryStorage });
+// const storageMulter = require("../../helpers/storageMulter");
+// const upload = multer({ storage: storageMulter() });
 const productControllerAdmin = require("../../controllers/admin/products.controller");
 const validate = require("../../validate/admin/product.validate");
+const uploadToCloud = require("../../middewares/admin/uploadCloud.middleware");
 
 route.get("/", productControllerAdmin.index);
 route.patch("/change-status/:status/:id", productControllerAdmin.changeStatus);
 route.patch("/change-multiple", productControllerAdmin.changeStatusMulti);
 route.delete("/delete-item/:id", productControllerAdmin.delete);
 route.get("/create", productControllerAdmin.create);
-route.post("/create", upload.single("thumbnail"), validate.createPost, productControllerAdmin.postCreate);
+route.post("/create", upload.single("thumbnail"), uploadToCloud.uploadToCloud, validate.createPost, productControllerAdmin.postCreate);
 route.get("/edit/:id", productControllerAdmin.edit);
 route.patch("/edit/:id", upload.single("thumbnail"), validate.editPost, productControllerAdmin.postEdit);
 route.get("/detail/:id", productControllerAdmin.detail);
