@@ -31,10 +31,22 @@ module.exports.index = async (req, res) => {
         objectPagination = paginationHelper(req.query.page, productsCount);
         // position tang dan 
 
+
+        // title-asc, title-desc
+        let sort = {};
+        if(req.query.sort) {
+            const sortData = req.query.sort.split("-");
+            const field = sortData[0];
+            const order = sortData[1] === "asc" ? 1 : -1;
+            sort[field] = order;
+        } else {
+            sort.position = -1; // Mặc định sắp xếp theo position giảm dần
+        }
+
         products = await Product.find(filter)
             .limit(objectPagination.limitItems)
             .skip(objectPagination.skip)
-            .sort({ position: "desc" });
+            .sort(sort)
 
         res.render("admin/pages/products/index.pug", { 
             title: "Products",

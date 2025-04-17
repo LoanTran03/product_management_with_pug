@@ -33,6 +33,25 @@ block content
     .card
         .card-header
             h3.card-title List Products
+            .row 
+            .col-4
+                div(sort)
+                    select(
+                        class = "form-control"
+                        name = "sort"
+                        sort-select 
+                    )
+                        option(value = "position-dsc") Position decrease 
+                        option(value = "position-asc") Position increase
+                        option(value = "price-dsc") Price decrease
+                        option(value = "price-asc") Price increase
+                        option(value = "title-dsc") Title at decrease
+                        option(value = "title-asc") Title at increase
+                    
+                    button(
+                        class = "btn btn-primary"
+                        sort-clear
+                    ) CLEAR SORT
         .card-body
             .row 
                 .col-9

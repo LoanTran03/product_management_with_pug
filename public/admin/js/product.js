@@ -133,3 +133,25 @@ if (buttonDelete.length > 0) {
     });
   });
 }
+
+const sortSelect = document.querySelector("[sort-select]");
+const sortClear = document.querySelector("[sort-clear]");
+
+// Khi người dùng chọn một sort option
+if (sortSelect) {
+  sortSelect.addEventListener("change", () => {
+    let sortValue = sortSelect.value;
+    let url = new URL(window.location.href);
+    url.searchParams.set("sort", sortValue); // Cập nhật query param
+    window.location.href = url.toString(); // Reload lại trang với query mới
+  });
+}
+
+// Khi người dùng click "CLEAR SORT"
+if (sortClear) {
+  sortClear.addEventListener("click", () => {
+    let url = new URL(window.location.href);
+    url.searchParams.delete("sort"); // Xóa param
+    window.location.href = url.toString(); // ⚠️ Thiếu dòng này → cần reload lại
+  });
+}
